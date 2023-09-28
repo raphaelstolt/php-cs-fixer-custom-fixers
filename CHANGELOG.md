@@ -5,7 +5,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this p
 
 ## [Unreleased]
 
-## v1.0.0 - 2016-09-04
+## v0.0.6 - 2023-09-29
 - Initial release.
 
-[Unreleased]: https://github.com/raphaelstolt/php-cs-fixer-custom-fixers/compare/v1.0.0...HEAD
+[Unreleased]: https://github.com/raphaelstolt/php-cs-fixer-custom-fixers/compare/v0.0.6...HEAD
