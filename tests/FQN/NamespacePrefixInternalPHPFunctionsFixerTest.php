@@ -31,6 +31,8 @@ final class NamespacePrefixInternalPHPFunctionsFixerTest extends AbstractFixerTe
             '<?php
 class Good
 {
+    private function glob() {}
+
     public function firstMethod()
     {
         $array = ["some-value"];
@@ -38,6 +40,7 @@ class Good
         \in_array("some-value", $array);
         \explode("-", "some-text");
         Example::glob("*");
+        $this->glob();
 
         return \strlen($array[0]);
     }
@@ -45,6 +48,8 @@ class Good
             '<?php
 class Good
 {
+    private function glob() {}
+
     public function firstMethod()
     {
         $array = ["some-value"];
@@ -52,6 +57,7 @@ class Good
         in_array("some-value", $array);
         \explode("-", "some-text");
         Example::glob("*");
+        $this->glob();
 
         return strlen($array[0]);
     }

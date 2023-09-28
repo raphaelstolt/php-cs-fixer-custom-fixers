@@ -31,6 +31,7 @@ final class NamespacePrefixInternalPHPFunctionsFixer extends AbstractFixer imple
         }
 
         $internalPHPFunctionNames = \get_defined_functions()['internal'];
+        $tokensToIgnoreForPrefixing = [T_DOUBLE_COLON, T_FUNCTION, T_OBJECT_OPERATOR, T_CLASS];
 
         /** @var \PhpCsFixer\Tokenizer\Token $functionToken */
         foreach ($tokens as $index => $functionToken) {
@@ -41,7 +42,14 @@ final class NamespacePrefixInternalPHPFunctionsFixer extends AbstractFixer imple
             $prevIndex = $tokens->getPrevMeaningfulToken($index);
 
             if (\in_array($functionToken->getContent(), $internalPHPFunctionNames)) {
-                if ($tokens[$prevIndex]->isGivenKind(T_DOUBLE_COLON)) {
+                $noInternalPHPFunction = false;
+                foreach ($tokensToIgnoreForPrefixing as $tokenToIgnore) {
+                    if ($tokens[$prevIndex]->isGivenKind($tokenToIgnore)) {
+                        $noInternalPHPFunction = true;
+                    }
+                }
+
+                if ($noInternalPHPFunction) {
                     continue;
                 }
 
