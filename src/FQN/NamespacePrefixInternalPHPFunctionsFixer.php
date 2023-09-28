@@ -5,19 +5,17 @@ declare(strict_types=1);
 namespace Stolt\PhpCsFixer\FQN;
 
 use PhpCsFixer\Fixer\ConfigurableFixerInterface;
-use PhpCsFixer\Fixer\WhitespacesAwareFixerInterface;
 use PhpCsFixer\FixerConfiguration\FixerConfigurationResolver;
 use PhpCsFixer\FixerConfiguration\FixerConfigurationResolverInterface;
 use PhpCsFixer\FixerConfiguration\FixerOptionBuilder;
 use PhpCsFixer\FixerDefinition\CodeSample;
 use PhpCsFixer\FixerDefinition\FixerDefinition;
 use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
-use PhpCsFixer\Preg;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use Stolt\PhpCsFixer\AbstractFixer;
 
-final class NamespacePrefixInternalPHPFunctionsFixer extends AbstractFixer implements ConfigurableFixerInterface, WhitespacesAwareFixerInterface
+final class NamespacePrefixInternalPHPFunctionsFixer extends AbstractFixer implements ConfigurableFixerInterface
 {
     /**
      * @internal
