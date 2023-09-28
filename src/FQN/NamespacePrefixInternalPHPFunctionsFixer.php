@@ -38,9 +38,14 @@ final class NamespacePrefixInternalPHPFunctionsFixer extends AbstractFixer imple
                 continue;
             }
 
+            $prevIndex = $tokens->getPrevMeaningfulToken($index);
+
             if (\in_array($functionToken->getContent(), $internalPHPFunctionNames)) {
+                if ($tokens[$prevIndex]->isGivenKind(T_DOUBLE_COLON)) {
+                    continue;
+                }
+
                 $previousIsNamespaceSeparator = false;
-                $prevIndex = $tokens->getPrevMeaningfulToken($index);
 
                 if ($tokens[$prevIndex]->isGivenKind(T_NS_SEPARATOR)) {
                     $previousIsNamespaceSeparator = true;

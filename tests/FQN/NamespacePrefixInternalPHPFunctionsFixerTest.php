@@ -37,6 +37,7 @@ class Good
         \is_array($array);
         \in_array("some-value", $array);
         \explode("-", "some-text");
+        Example::glob("*");
 
         return \strlen($array[0]);
     }
@@ -50,6 +51,7 @@ class Good
         is_array($array);
         in_array("some-value", $array);
         \explode("-", "some-text");
+        Example::glob("*");
 
         return strlen($array[0]);
     }
