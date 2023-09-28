@@ -11,6 +11,8 @@ use PhpCsFixer\FixerConfiguration\FixerOptionBuilder;
 use PhpCsFixer\FixerDefinition\CodeSample;
 use PhpCsFixer\FixerDefinition\FixerDefinition;
 use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
+use PhpCsFixer\Tokenizer\Analyzer\Analysis\NamespaceUseAnalysis;
+use PhpCsFixer\Tokenizer\Analyzer\NamespaceUsesAnalyzer;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use Stolt\PhpCsFixer\AbstractFixer;
@@ -24,6 +26,25 @@ final class NamespacePrefixInternalPHPFunctionsFixer extends AbstractFixer imple
 
     private string $description = 'Adds an namespace prefix to internal PHP functions to minimize opcode conversions.';
 
+    private function getDeclaredUseFunctions(Tokens $tokens): array
+    {
+        $useDeclarations = (new NamespaceUsesAnalyzer())->getDeclarationsFromTokens($tokens);
+
+        if (0 === \count($useDeclarations)) {
+            return [];
+        }
+
+        $useFunctionDeclarations = [];
+
+        foreach ($useDeclarations as $useDeclaration) {
+            if ($useDeclaration->getType() === NamespaceUseAnalysis::TYPE_FUNCTION) {
+                $useFunctionDeclarations[] = $useDeclaration->getShortName();
+            }
+        }
+
+        return $useFunctionDeclarations;
+    }
+
     protected function applyFix(\SplFileInfo $file, Tokens $tokens): void
     {
         if ($this->configuration[self::C_ENABLE_PREFIX] === false) {
@@ -31,10 +52,15 @@ final class NamespacePrefixInternalPHPFunctionsFixer extends AbstractFixer imple
         }
 
         $internalPHPFunctionNames = \get_defined_functions()['internal'];
+        $declaredUseFunctions = [];
         $tokensToIgnoreForPrefixing = [T_DOUBLE_COLON, T_FUNCTION, T_OBJECT_OPERATOR, T_CLASS];
 
         /** @var \PhpCsFixer\Tokenizer\Token $functionToken */
         foreach ($tokens as $index => $functionToken) {
+            if ($functionToken->isGivenKind([T_USE])) {
+                $declaredUseFunctions = $this->getDeclaredUseFunctions($tokens);
+            }
+
             if (!$functionToken->isGivenKind([T_STRING])) {
                 continue;
             }
@@ -42,14 +68,10 @@ final class NamespacePrefixInternalPHPFunctionsFixer extends AbstractFixer imple
             $prevIndex = $tokens->getPrevMeaningfulToken($index);
 
             if (\in_array($functionToken->getContent(), $internalPHPFunctionNames)) {
-                $noInternalPHPFunction = false;
-                foreach ($tokensToIgnoreForPrefixing as $tokenToIgnore) {
-                    if ($tokens[$prevIndex]->isGivenKind($tokenToIgnore)) {
-                        $noInternalPHPFunction = true;
-                    }
+                if (\in_array($functionToken->getContent(), $declaredUseFunctions)) {
+                    continue;
                 }
-
-                if ($noInternalPHPFunction) {
+                if ($tokens[$prevIndex]->isGivenKind($tokensToIgnoreForPrefixing)) {
                     continue;
                 }
 

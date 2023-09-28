@@ -29,6 +29,9 @@ final class NamespacePrefixInternalPHPFunctionsFixerTest extends AbstractFixerTe
     {
         yield [
             '<?php
+use Foo\Bar;
+use function \Stolt\Example\time;
+
 class Good
 {
     private function glob() {}
@@ -41,11 +44,15 @@ class Good
         \explode("-", "some-text");
         Example::glob("*");
         $this->glob();
+        time();
 
         return \strlen($array[0]);
     }
 }',
             '<?php
+use Foo\Bar;
+use function \Stolt\Example\time;
+
 class Good
 {
     private function glob() {}
@@ -58,6 +65,7 @@ class Good
         \explode("-", "some-text");
         Example::glob("*");
         $this->glob();
+        time();
 
         return strlen($array[0]);
     }
