@@ -24,7 +24,7 @@ jobs:
           php-version: "${{ matrix.php }}"
 
       - name: Install Composer dependencies
-        run: composer update --no-progress --no-suggest --prefer-dist --optimize-autoloader
+        run: composer update --no-progress --prefer-source --optimize-autoloader
 
       - name: Run tests
         run: composer run-script test
