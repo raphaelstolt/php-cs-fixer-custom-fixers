@@ -25,6 +25,6 @@ declare(strict_types=1);
 return (new \PhpCsFixer\Config())
     ->registerCustomFixers(new \Stolt\PhpCsFixer\Fixers())
     ->setRules([
-        'Stolt\namespace_prefix_internal_PHP_functions' => true,
+        'Stolt/namespace_prefix_internal_php_functions' => true,
     ]);
 ```
