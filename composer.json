@@ -49,7 +49,7 @@
     },
     "scripts": {
         "test": "phpunit",
-        "test-with-coverage": "phpunit --coverage-html coverage-reports",
+        "test-with-coverage": "export XDEBUG_MODE=coverage && phpunit --coverage-html coverage-reports",
         "cs-fix": "php-cs-fixer fix . -vv || true",
         "cs-fix-paralell": "if [[ -f .php-cs-fixer.php ]]; then FIXER_CONFIG=.php-cs-fixer.php; else FIXER_CONFIG=.php-cs-fixer.dist.php; fi; php-cs-fixer list-files --config=$FIXER_CONFIG | xargs -n 50 -P 8 php-cs-fixer fix --config=$FIXER_CONFIG --path-mode intersection 2> /dev/null",
         "cs-lint": "php-cs-fixer fix --diff --stop-on-violation --verbose --dry-run"

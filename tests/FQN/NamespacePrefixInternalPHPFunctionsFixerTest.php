@@ -9,7 +9,7 @@ use PhpCsFixer\Tests\Test\AbstractFixerTestCase;
 use Stolt\PhpCsFixer\FQN\NamespacePrefixInternalPHPFunctionsFixer;
 
 /**
- * @covers Stolt\PhpCsFixer\FQN\BackslashPrefixInternalPHPFunctionsFixer
+ * @covers Stolt\PhpCsFixer\FQN\NamespacePrefixInternalPHPFunctionsFixer
  */
 final class NamespacePrefixInternalPHPFunctionsFixerTest extends AbstractFixerTestCase
 {
